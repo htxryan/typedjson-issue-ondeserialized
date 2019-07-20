@@ -19,6 +19,7 @@ class TargetClass {
 }
 
 function run(json: string): void {
+    // This check mimics what TypedJSON is doing (the issue)
     let manualInstance = new TargetClass();
     var deserializerType = typeof (manualInstance.constructor as any)[onDeserializedMethodName];
     if (deserializerType === 'function') {
@@ -27,6 +28,7 @@ function run(json: string): void {
         console.log('Failed to detect type of function', deserializerType);
     }
 
+    // The parse call below will fail to execute onDeserialized as expected
     let serializer = new TypedJSON(TargetClass);
     let targetClass = serializer.parse(json);
     console.log('targetClass', targetClass);
